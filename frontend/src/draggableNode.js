@@ -10,23 +10,15 @@ export const DraggableNode = ({ type, label }) => {
   
     return (
       <div
-        className={type}
+        className={`draggable-node node-${type}`}
         onDragStart={(event) => onDragStart(event, type)}
         onDragEnd={(event) => (event.target.style.cursor = 'grab')}
-        style={{ 
-          cursor: 'grab', 
-          minWidth: '80px', 
-          height: '60px',
-          display: 'flex', 
-          alignItems: 'center', 
-          borderRadius: '8px',
-          backgroundColor: '#1C2536',
-          justifyContent: 'center', 
-          flexDirection: 'column'
-        }} 
+        role="button"
+        aria-label={`Drag ${label} node to the canvas`}
         draggable
       >
-          <span style={{ color: '#fff' }}>{label}</span>
+          <span className="draggable-node__dot" aria-hidden="true" />
+          <span>{label}</span>
       </div>
     );
   };

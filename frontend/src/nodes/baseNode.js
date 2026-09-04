@@ -25,7 +25,7 @@ export const BaseNode = ({ id, data = {}, config }) => {
   };
 
   return (
-    <div style={{ width: 200, minHeight: 80, border: '1px solid black' }}>
+    <div className={`base-node node-${data.nodeType || 'default'}`}>
       {(config.handles || []).map((handle) => (
         <Handle
           key={handle.id}
@@ -35,14 +35,15 @@ export const BaseNode = ({ id, data = {}, config }) => {
           style={handle.style}
         />
       ))}
-      <div>
-        <span>{config.title}</span>
+      <div className="base-node__header">
+        <span className="base-node__indicator" aria-hidden="true" />
+        <span className="base-node__title">{config.title}</span>
       </div>
-      <div>
-        {config.description && <span>{config.description}</span>}
+      <div className="base-node__body">
+        {config.description && <span className="base-node__description">{config.description}</span>}
         {(config.fields || []).map((field) => (
-          <label key={field.name}>
-            {field.label}:
+          <label className="base-node__field" key={field.name}>
+            <span>{field.label}</span>
             {field.type === 'select' ? (
               <select
                 value={values[field.name]}

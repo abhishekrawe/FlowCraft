@@ -5,8 +5,16 @@ import { DraggableNode } from './draggableNode';
 export const PipelineToolbar = () => {
 
     return (
-        <div style={{ padding: '10px' }}>
-            <div style={{ marginTop: '20px', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+        <header className="pipeline-toolbar">
+            <div className="brand-lockup">
+                <span className="brand-mark" aria-hidden="true">V</span>
+                <div>
+                    <strong>VectorShift</strong>
+                    <span>Workflow studio</span>
+                </div>
+            </div>
+            <div className="toolbar-divider" aria-hidden="true" />
+            <div className="node-palette" aria-label="Node palette">
                 <DraggableNode type='customInput' label='Input' />
                 <DraggableNode type='llm' label='LLM' />
                 <DraggableNode type='customOutput' label='Output' />
@@ -17,6 +25,6 @@ export const PipelineToolbar = () => {
                 <DraggableNode type='merge' label='Merge' />
                 <DraggableNode type='webhook' label='Webhook' />
             </div>
-        </div>
+        </header>
     );
 };

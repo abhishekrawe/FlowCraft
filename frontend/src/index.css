@@ -105,7 +105,7 @@ body {
 .react-flow__edge.animated path { stroke-dasharray: 7 5; }
 .react-flow__connection-path { stroke: var(--cyan); stroke-width: 2; }
 
-.base-node { width: 220px; min-height: 92px; overflow: visible; border: 1px solid var(--border-strong); border-radius: 12px; color: var(--text); background: linear-gradient(145deg, #1b2b37, #15222d); box-shadow: 0 10px 24px rgba(0, 0, 0, .24); font-size: 12px; }
+.base-node { width: var(--node-width, 220px); min-height: 92px; overflow: visible; border: 1px solid var(--border-strong); border-radius: 12px; color: var(--text); background: linear-gradient(145deg, #1b2b37, #15222d); box-shadow: 0 10px 24px rgba(0, 0, 0, .24); font-size: 12px; }
 .base-node::before { content: ''; position: absolute; top: -1px; left: 14px; right: 14px; height: 2px; border-radius: 4px; background: var(--accent); opacity: .9; }
 .base-node__header { display: flex; align-items: center; gap: 9px; padding: 13px 14px 10px; border-bottom: 1px solid rgba(75, 103, 119, .32); }
 .base-node__indicator { width: 8px; height: 8px; border-radius: 3px; background: var(--accent); box-shadow: 0 0 10px color-mix(in srgb, var(--accent), transparent 50%); }
@@ -114,7 +114,9 @@ body {
 .base-node__description { color: var(--muted); line-height: 1.4; }
 .base-node__field { display: flex; flex-direction: column; gap: 5px; color: #9fb1bd; font-size: 10px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase; }
 .base-node input, .base-node select { width: 100%; min-height: 29px; padding: 5px 8px; border: 1px solid #314756; border-radius: 6px; outline: none; color: #dce8ed; background: var(--surface-input); font: 500 11px 'DM Sans', sans-serif; }
+.base-node textarea { width: 100%; height: var(--text-area-height, 60px); min-height: 44px; max-height: 190px; padding: 7px 8px; border: 1px solid #314756; border-radius: 6px; outline: none; resize: none; overflow-y: auto; color: #dce8ed; background: var(--surface-input); font: 500 12px/1.45 'DM Sans', sans-serif; }
 .base-node input:focus, .base-node select:focus { border-color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent), transparent 82%); }
+.base-node textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent), transparent 82%); }
 .base-node .react-flow__handle { width: 9px; height: 9px; border: 2px solid #12202a; background: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 8px color-mix(in srgb, var(--accent), transparent 60%); }
 .base-node .react-flow__handle:hover { transform: scale(1.25); }
 .react-flow__node.selected .base-node { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 12px 28px rgba(0, 0, 0, .3); }

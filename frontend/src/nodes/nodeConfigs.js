@@ -1,4 +1,5 @@
 import { Position } from 'reactflow';
+import { getTextDimensions, getTextVariables } from './textUtils';
 
 const selectField = (name, label, options, defaultValue) => ({
   name,
@@ -38,8 +39,20 @@ export const llmConfig = {
 
 export const textConfig = {
   title: 'Text',
-  fields: [{ name: 'text', label: 'Text', defaultValue: '{{input}}' }],
-  handles: [{ type: 'source', position: Position.Right, id: 'output' }],
+  fields: [{ name: 'text', label: 'Text', type: 'textarea', defaultValue: '{{input}}' }],
+  handles: (values, id) => [
+    ...getTextVariables(values.text).map((variable, index, variables) => ({
+      type: 'target',
+      position: Position.Left,
+      id: variable,
+      style: { top: `${((index + 1) / (variables.length + 1)) * 100}%` },
+    })),
+    { type: 'source', position: Position.Right, id: 'output' },
+  ],
+  getStyle: (values) => {
+    const { width, height } = getTextDimensions(values.text);
+    return { '--node-width': `${width}px`, '--text-area-height': `${height}px` };
+  },
 };
 
 export const filterConfig = {

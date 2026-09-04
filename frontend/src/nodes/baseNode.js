@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Handle } from 'reactflow';
+import { useEffect, useState } from 'react';
+import { Handle, useUpdateNodeInternals } from 'reactflow';
 
 const getInitialValue = (field, id, data) => {
   if (data && data[field.name] !== undefined) {
@@ -12,6 +12,7 @@ const getInitialValue = (field, id, data) => {
 };
 
 export const BaseNode = ({ id, data = {}, config }) => {
+  const updateNodeInternals = useUpdateNodeInternals();
   const [values, setValues] = useState(() => {
     const initialValues = {};
     (config.fields || []).forEach((field) => {
@@ -24,9 +25,20 @@ export const BaseNode = ({ id, data = {}, config }) => {
     setValues((currentValues) => ({ ...currentValues, [fieldName]: value }));
   };
 
+  const handles = typeof config.handles === 'function'
+    ? config.handles(values, id, data)
+    : config.handles || [];
+  const nodeStyle = config.getStyle ? config.getStyle(values) : undefined;
+  const handleKey = handles.map((handle) => `${handle.type}:${handle.id}:${handle.style?.top || ''}`).join('|');
+  const sizeKey = nodeStyle ? `${nodeStyle['--node-width'] || ''}:${nodeStyle['--text-area-height'] || ''}` : '';
+
+  useEffect(() => {
+    updateNodeInternals(id);
+  }, [id, handleKey, sizeKey, updateNodeInternals]);
+
   return (
-    <div className={`base-node node-${data.nodeType || 'default'}`}>
-      {(config.handles || []).map((handle) => (
+    <div className={`base-node node-${data.nodeType || 'default'}`} style={nodeStyle}>
+      {handles.map((handle) => (
         <Handle
           key={handle.id}
           type={handle.type}
@@ -55,6 +67,12 @@ export const BaseNode = ({ id, data = {}, config }) => {
                   </option>
                 ))}
               </select>
+            ) : field.type === 'textarea' ? (
+              <textarea
+                className="base-node__textarea"
+                value={values[field.name]}
+                onChange={(event) => handleFieldChange(field.name, event.target.value)}
+              />
             ) : (
               <input
                 type={field.type || 'text'}

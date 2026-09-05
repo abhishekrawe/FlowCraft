@@ -106,10 +106,20 @@ body {
 .react-flow__connection-path { stroke: var(--cyan); stroke-width: 2; }
 
 .base-node { width: var(--node-width, 220px); min-height: 92px; overflow: visible; border: 1px solid var(--border-strong); border-radius: 12px; color: var(--text); background: linear-gradient(145deg, #1b2b37, #15222d); box-shadow: 0 10px 24px rgba(0, 0, 0, .24); font-size: 12px; }
+.base-node.node-shape-rectangle { border-radius: 3px; }
+.base-node.node-shape-pill { border-radius: 22px; }
+.base-node.node-shape-pill .base-node__header { padding-left: 18px; padding-right: 18px; }
+.base-node.is-collapsed { min-height: 46px; width: 220px; }
 .base-node::before { content: ''; position: absolute; top: -1px; left: 14px; right: 14px; height: 2px; border-radius: 4px; background: var(--accent); opacity: .9; }
 .base-node__header { display: flex; align-items: center; gap: 9px; padding: 13px 14px 10px; border-bottom: 1px solid rgba(75, 103, 119, .32); }
 .base-node__indicator { width: 8px; height: 8px; border-radius: 3px; background: var(--accent); box-shadow: 0 0 10px color-mix(in srgb, var(--accent), transparent 50%); }
-.base-node__title { font: 600 13px 'Space Grotesk', sans-serif; letter-spacing: .15px; }
+.base-node__title { flex: 1; font: 600 13px 'Space Grotesk', sans-serif; letter-spacing: .15px; }
+.base-node__actions { display: flex; align-items: center; gap: 4px; }
+.base-node__option, .base-node__collapse { height: 22px; border: 1px solid #38505f; border-radius: 5px; color: #9fb1bd; background: #172630; font: 500 9px 'DM Sans', sans-serif; }
+.base-node__option { max-width: 48px; padding: 2px 3px; }
+.base-node__color-option { max-width: 43px; }
+.base-node__collapse { width: 22px; padding: 0; color: #cce0e7; cursor: pointer; font-size: 15px; line-height: 18px; }
+.base-node__option:focus, .base-node__collapse:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent), transparent 82%); }
 .base-node__body { display: flex; flex-direction: column; gap: 9px; padding: 12px 14px 14px; }
 .base-node__description { color: var(--muted); line-height: 1.4; }
 .base-node__field { display: flex; flex-direction: column; gap: 5px; color: #9fb1bd; font-size: 10px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase; }

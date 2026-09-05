@@ -26,13 +26,28 @@ export const useStore = create((set, get) => ({
         });
     },
     onNodesChange: (changes) => {
+      const removedNodeIds = changes
+        .filter((change) => change.type === 'remove')
+        .map((change) => change.id);
       set({
         nodes: applyNodeChanges(changes, get().nodes),
+        edges: removedNodeIds.length
+          ? get().edges.filter((edge) => (
+            !removedNodeIds.includes(edge.source) && !removedNodeIds.includes(edge.target)
+          ))
+          : get().edges,
       });
     },
     onEdgesChange: (changes) => {
       set({
         edges: applyEdgeChanges(changes, get().edges),
+      });
+    },
+    removeNodeEdgesForHandles: (nodeId, validHandleIds) => {
+      set({
+        edges: get().edges.filter((edge) => (
+          edge.target !== nodeId || validHandleIds.includes(edge.targetHandle)
+        )),
       });
     },
     onConnect: (connection) => {
@@ -44,7 +59,7 @@ export const useStore = create((set, get) => ({
       set({
         nodes: get().nodes.map((node) => {
           if (node.id === nodeId) {
-            node.data = { ...node.data, [fieldName]: fieldValue };
+            return { ...node, data: { ...node.data, [fieldName]: fieldValue } };
           }
   
           return node;

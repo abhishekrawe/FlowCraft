@@ -39,12 +39,13 @@ export const llmConfig = {
 
 export const textConfig = {
   title: 'Text',
+  pruneEdgesForField: true,
   fields: [{ name: 'text', label: 'Text', type: 'textarea', defaultValue: '{{input}}' }],
   handles: (values, id) => [
     ...getTextVariables(values.text).map((variable, index, variables) => ({
       type: 'target',
       position: Position.Left,
-      id: variable,
+      id: variable === 'output' ? 'variable-output' : variable,
       style: { top: `${((index + 1) / (variables.length + 1)) * 100}%` },
     })),
     { type: 'source', position: Position.Right, id: 'output' },

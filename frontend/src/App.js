@@ -1,19 +1,17 @@
 import { PipelineToolbar } from './toolbar';
 import { PipelineUI } from './ui';
 import { SubmitButton } from './submit';
+import { EditorPanel } from './editorPanel';
+import { useStore } from './store';
 
 function App() {
+  const theme = useStore((state) => state.settings.theme);
+
   return (
-    <main className="app-shell">
+    <main className={`app-shell theme-${theme}`}>
       <PipelineToolbar />
       <section className="workspace" aria-label="Workflow canvas">
-        <div className="workspace-heading">
-          <div>
-            <span className="eyebrow">Workspace / Untitled flow</span>
-            <h1>Build your pipeline</h1>
-          </div>
-          <span className="status-pill"><span /> Ready</span>
-        </div>
+        <EditorPanel />
         <PipelineUI />
       </section>
       <SubmitButton />

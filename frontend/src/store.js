@@ -11,6 +11,10 @@ import {
 export const useStore = create((set, get) => ({
     nodes: [],
     edges: [],
+    settings: {
+      theme: 'light', canvasBackground: 'paper', showGrid: true, gridColor: '#b9c9cf', gridSize: 20, nodeScale: 1,
+    },
+    updateSettings: (settings) => set({ settings: { ...get().settings, ...settings } }),
     getNodeID: (type) => {
         const newIDs = {...get().nodeIDs};
         if (newIDs[type] === undefined) {

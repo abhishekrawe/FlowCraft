@@ -18,7 +18,6 @@ import { WebhookNode } from './nodes/webhookNode';
 
 import 'reactflow/dist/style.css';
 
-const gridSize = 20;
 const proOptions = { hideAttribution: true };
 const nodeTypes = {
   customInput: InputNode,
@@ -54,6 +53,7 @@ export const PipelineUI = () => {
       onEdgesChange,
       onConnect
     } = useStore(selector, shallow);
+    const settings = useStore((state) => state.settings);
 
     const onDrop = useCallback(
         (event) => {
@@ -95,8 +95,9 @@ export const PipelineUI = () => {
 
     return (
         <>
-        <div ref={reactFlowWrapper} className="pipeline-canvas">
+        <div ref={reactFlowWrapper} className={`pipeline-canvas canvas-${settings.canvasBackground}`}>
             <ReactFlow
+          className={`flow-canvas canvas-${settings.canvasBackground}`}
                 nodes={nodes}
                 edges={edges}
                 onNodesChange={onNodesChange}
@@ -107,10 +108,10 @@ export const PipelineUI = () => {
                 onInit={setReactFlowInstance}
                 nodeTypes={nodeTypes}
                 proOptions={proOptions}
-                snapGrid={[gridSize, gridSize]}
+                snapGrid={[settings.gridSize, settings.gridSize]}
                 connectionLineType='smoothstep'
             >
-                <Background color="#28384a" gap={gridSize} size={1} />
+                {settings.showGrid && <Background color={settings.gridColor} gap={settings.gridSize} size={1} />}
                 <Controls className="pipeline-controls" />
                 <MiniMap className="pipeline-minimap" nodeColor={(node) => `var(--node-${node.type}, #58b9d1)`} />
             </ReactFlow>

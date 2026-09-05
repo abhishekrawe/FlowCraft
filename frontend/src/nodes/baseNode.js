@@ -16,6 +16,7 @@ export const BaseNode = ({ id, data = {}, config }) => {
   const updateNodeInternals = useUpdateNodeInternals();
   const updateNodeField = useStore((state) => state.updateNodeField);
   const removeNodeEdgesForHandles = useStore((state) => state.removeNodeEdgesForHandles);
+  const settings = useStore((state) => state.settings);
   const [values, setValues] = useState(() => {
     const initialValues = {};
     (config.fields || []).forEach((field) => {
@@ -41,6 +42,8 @@ export const BaseNode = ({ id, data = {}, config }) => {
   const nodeStyle = {
     ...(config.getStyle ? config.getStyle(values) : {}),
     ...(accent ? { '--accent': accent } : {}),
+    '--node-scale': settings.nodeScale,
+    '--node-radius': data.borderRadius || '10px',
   };
 
   useEffect(() => {
@@ -83,28 +86,6 @@ export const BaseNode = ({ id, data = {}, config }) => {
         <span className="base-node__indicator" aria-hidden="true" />
         <span className="base-node__title">{config.title}</span>
         <div className="base-node__actions" onMouseDown={(event) => event.stopPropagation()}>
-          <select
-            className="base-node__option base-node__color-option"
-            value={accent}
-            aria-label={`${config.title} accent color`}
-            onChange={(event) => handleNodeOptionChange('accent', event.target.value)}
-          >
-            <option value="">Auto</option>
-            <option value="#59c3d4">Cyan</option>
-            <option value="#d58bdf">Violet</option>
-            <option value="#e6b85c">Amber</option>
-            <option value="#69c78f">Green</option>
-          </select>
-          <select
-            className="base-node__option"
-            value={shape}
-            aria-label={`${config.title} shape`}
-            onChange={(event) => handleNodeOptionChange('shape', event.target.value)}
-          >
-            <option value="rounded">Round</option>
-            <option value="rectangle">Square</option>
-            <option value="pill">Pill</option>
-          </select>
           <button
             className="base-node__collapse"
             type="button"

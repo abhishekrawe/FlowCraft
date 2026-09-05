@@ -1,19 +1,14 @@
 // toolbar.js
 
 import { DraggableNode } from './draggableNode';
+import { useStore } from './store';
 
 export const PipelineToolbar = () => {
+    const theme = useStore((state) => state.settings.theme);
+    const updateSettings = useStore((state) => state.updateSettings);
 
     return (
         <header className="pipeline-toolbar">
-            <div className="brand-lockup">
-                <span className="brand-mark" aria-hidden="true">V</span>
-                <div>
-                    <strong>VectorShift</strong>
-                    <span>Workflow studio</span>
-                </div>
-            </div>
-            <div className="toolbar-divider" aria-hidden="true" />
             <div className="node-palette" aria-label="Node palette">
                 <DraggableNode type='customInput' label='Input' />
                 <DraggableNode type='llm' label='LLM' />
@@ -24,6 +19,11 @@ export const PipelineToolbar = () => {
                 <DraggableNode type='condition' label='Condition' />
                 <DraggableNode type='merge' label='Merge' />
                 <DraggableNode type='webhook' label='Webhook' />
+            </div>
+            <div className="header-theme" aria-label="Theme">
+                <span>Theme</span>
+                <button className={theme === 'light' ? 'is-active' : ''} type="button" onClick={() => updateSettings({ theme: 'light' })}>Light</button>
+                <button className={theme === 'dark' ? 'is-active' : ''} type="button" onClick={() => updateSettings({ theme: 'dark' })}>Dark</button>
             </div>
         </header>
     );
